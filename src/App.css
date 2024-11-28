@@ -1,0 +1,12 @@
+@font-face{
+    font-family: 'Gilroy-Light';
+    src: url('/font/Gilroy-Light.ttf') format('ttf');
+}
+@font-face{
+    font-family: 'Etrusco-Medium';
+    src: url('/font/Etrusco-Medium.otf') format('otf');
+}
+@font-face{
+    font-family: 'Etrusco-Light';
+    src: url('/font/Etrusco-Light.otf') format('otf');
+}
