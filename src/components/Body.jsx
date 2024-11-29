@@ -16,7 +16,7 @@ function Body({ searchTerm }) {
     const [activeTag, setActiveTag] = useState('all');
     const [pinnedPage, setPinnedPage] = useState(1);
     const [unPinnedPage, setUnpinnedPage] = useState(1);
-    const itemPerPage = 7;
+    const itemPerPage = 6;
 
     useEffect(() => {
         const collectionRef = collection(db, 'notes');
@@ -39,7 +39,7 @@ function Body({ searchTerm }) {
     }, [])
 
     const filteredNotes = notes.filter(note => {
-        const matchesSearch = searchTerm ? note.title.toLowerCase().includes(searchTerm.toLowerCase()) || note.tagLine?.toLowerCase().includes(searchTerm.toLowerCase()) : true;
+        const matchesSearch = searchTerm ? note.title.toLowerCase().includes(searchTerm.toLowerCase()) || note.tagLine?.toLowerCase().includes(searchTerm.toLowerCase()) || note.note?.toLowerCase().includes(searchTerm.toLowerCase()) : true;
         const matchesTag = activeTag !== "all" ? note.tagLine?.toLowerCase() === activeTag.toLowerCase() : true;
         return matchesSearch && matchesTag;
     });
