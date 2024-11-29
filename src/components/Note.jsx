@@ -54,11 +54,11 @@ function Note({ notes, onClick }) {
 
     return (
         <div className='group relative '>
-            <div onClick={onClick} className={`relative ${colors} border-black rounded-2xl border-2 pl-2 pr-4 py-3 overflow-x-auto text-black h-56  w-40 `}>
+            <div onClick={onClick} className={`relative ${colors} border-black rounded-2xl border-2 pl-2 pr-4 py-3 overflow-x-auto scrollbar-none text-black h-56  w-40 `}>
                 <h1 className='text-xl text-wrap font-etruscoM leading-tight'>{notes?.title || 'title undefined'}</h1>
                 <h4 className='text-sm font-semibold text-gray-800 mt-2 tracking-tighter'>{'#'+notes?.tagLine}</h4>
                 <h6 className='text-xs text-gray-600 mt-1'>{notes?.createdAt ? notes.createdAt.toDate().toDateString() : "..."}</h6>
-                <p className=' text-gray-600 text-xs mt-5 font-etruscoL'>{note.slice(0, 17).join(' ') + '.'}</p>
+                <p className=' text-gray-600 text-xs mt-5 font-etruscoL'>{note.slice(0, 10).join(' ') + '.'}</p>
                 <i className={`absolute  text-xl bottom-2 ${icon}`}></i>
             </div>
             <i onClick={() => handlePinnedNote(notes.id, notes.pinned)} className='ri-pushpin-fill absolute top-2 right-2 sm:hidden group-hover:flex group-hover:text-lg'></i>

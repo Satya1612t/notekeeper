@@ -38,12 +38,12 @@ function Body({ searchTerm }) {
         return () => detach();
     }, [])
 
-    const filteredNotes = notes.filter(note => { 
+    const filteredNotes = notes.filter(note => {
         const matchesSearch = searchTerm ? note.title.toLowerCase().includes(searchTerm.toLowerCase()) || note.tagLine?.toLowerCase().includes(searchTerm.toLowerCase()) : true;
         const matchesTag = activeTag !== "all" ? note.tagLine?.toLowerCase() === activeTag.toLowerCase() : true;
         return matchesSearch && matchesTag;
     });
-    
+
     const pinnedNotes = notes.filter(note => note.pinned);
     const unPinnedNotes = notes.filter(note => !note.pinned);
 
@@ -70,7 +70,7 @@ function Body({ searchTerm }) {
                         <li className='p-1 border-b hover:bg-slate-50 shadow-sm w-full text-center rounded-md'>
                             <button onClick={() => openPopup("Add Note", <Noteform noteProps={{ setNoteData: setNotes, isNewNote: true }} />)} >CreateNote<i className='ri-sticky-note-add-fill ml-2'></i></button>
                         </li>
-                        <li className='p-1 border-b hover:bg-slate-50 shadow-sm w-full text-center rounded-md'><button onClick={() => openPopup('add Lable',<Message />)}>AddLabel <i className='ri-price-tag-3-fill ml-2'></i></button></li>
+                        <li className='p-1 border-b hover:bg-slate-50 shadow-sm w-full text-center rounded-md'><button onClick={() => openPopup('add Lable', <Message />)}>AddLabel <i className='ri-price-tag-3-fill ml-2'></i></button></li>
                         <li className='p-1 border-b hover:bg-slate-50 shadow-sm w-full text-center rounded-md'><button onClick={handleNotify}>Trash <i className='ri-delete-bin-7-fill ml-2'></i></button></li>
                     </ul>
                 </aside>
@@ -79,14 +79,17 @@ function Body({ searchTerm }) {
                         <h1 className='tracking-tighter font-light mb-1 text-5xl text-black'>Your Notes </h1>
                         <button onClick={() => openPopup("add Note", <Noteform noteProps={{ setNoteData: setNotes, isNewNote: true }} />)} className='text-2xl border-2 md:mr-36 border-black rounded-md px-3 py-2 text-center'>+</button>
                     </div>
+              
+
                     <TagFilter setActiveTag={setActiveTag} activeTag={activeTag} notes={notes} />
+
 
                     {/* filterNotes */}
 
                     {searchTerm || activeTag !== "all" ?
                         (<>
                             {filteredNotes.length > 0 && <h1 className='font-etruscoL text-sm font-semibold'>Filtered <i className='ri-sticky-note-fill'></i></h1>}
-                            <div className='flex gap-2 py-2 flex-wrap'>
+                            <div className='flex gap-2 py-2 flex-wrap '>
                                 {filteredNotes.length > 0 &&
                                     filteredNotes.map(note => (
                                         <Note key={note.id} notes={note} onClick={() => openPopup(note ? 'edit note' : 'add note', <Noteform noteProps={{ setNoteData: setNotes, noteData: note || null, isNewNote: false, }} />)} />
@@ -97,7 +100,7 @@ function Body({ searchTerm }) {
                         (<>
                             {paginatedPinned.length > 0 ? <h1 className='font-etruscoL text-sm font-semibold'>Pinned <i className='ri-pushpin-2-fill'></i></h1> : ''}
                             <div className='relative'>
-                                <div className={`flex gap-2 py-2 flex-wrap ${pinnedPage > 1 ? 'justify-center' : 'justify-start'}`} >
+                                <div className={`flex gap-2 py-2 flex-wrap `} >
                                     {paginatedPinned.length > 0 &&
                                         paginatedPinned.map(note => (
                                             <Note key={note.id} notes={note} onClick={() => openPopup(note ? 'edit note' : 'add note', <Noteform noteProps={{ setNoteData: setNotes, noteData: note || null, isNewNote: false, }} />)} />
@@ -112,7 +115,7 @@ function Body({ searchTerm }) {
                             {/* //other */}
                             {unpaginatedPinned.length > 0 && <h1 className='font-etruscoL text-sm font-semibold'>Other <i className='ri-sticky-note-fill'></i></h1>}
                             <div className='relative'>
-                                <div className={`flex gap-2 py-2 flex-wrap ${unPinnedPage > 1 ? 'justify-center' : 'justify-start'}`}>
+                                <div className={`flex gap-2 py-2 flex-wrap`}>
                                     {unpaginatedPinned.length > 0 &&
                                         unpaginatedPinned.map(note => (
                                             <Note key={note.id} notes={note} onClick={() => openPopup(note ? 'edit note' : 'add note', <Noteform noteProps={{ setNoteData: setNotes, noteData: note || null, isNewNote: false, }} />)} />
@@ -131,15 +134,15 @@ function Body({ searchTerm }) {
 
 function TagFilter({ activeTag, setActiveTag, notes }) {
     const [highlightStyle, setHighlightStyle] = useState({ width: 0, left: 0 })
-    const containerRef = useRef(null)
-    const uniqueTags = Array.from(new Set(notes.map((note) => note.tagLine || '')));
+    const containerRef = useRef(null)   
+
+    const uniqueTags = ["all", ...new Set(notes.map((note) => note.tagLine || ""))];
 
     useEffect(() => {
-        if (activeTag === null && uniqueTags.length > 0) {
-            setActiveTag(uniqueTags[0]); 
+        if (!activeTag || !uniqueTags.includes(activeTag)) {
+            setActiveTag("all");
         }
-    }, [activeTag, uniqueTags, setActiveTag]);
-    
+    }, [activeTag, uniqueTags]);
 
     useEffect(() => {
         const activeButton = containerRef.current?.querySelector(`[data-tag="${activeTag}"]`)
@@ -154,8 +157,8 @@ function TagFilter({ activeTag, setActiveTag, notes }) {
     }, [activeTag])
 
     return (
-        <div className="w-full max-w-2xl p-4">
-            <div className="flex flex-wrap gap-2 relative" ref={containerRef}>
+        <div className="w-full max-w-full p-4">
+            <div className="flex flex-wrap gap-2 relative " ref={containerRef}>
                 {uniqueTags.map((tag) => (
                     <motion.button
                         key={tag}
@@ -170,13 +173,13 @@ function TagFilter({ activeTag, setActiveTag, notes }) {
                     </motion.button>
                 ))}
                 <motion.div
-                    className="absolute bg-[#D1FF85] rounded-full z-0"
+                    className="absolute  rounded-full z-0"
                     initial={false}
                     animate={{
                         width: highlightStyle.width,
                         left: highlightStyle.left,
                         height: '34px',
-                        top: '0px', 
+                        top: '0px',
                     }}
                     transition={{
                         type: "spring",
