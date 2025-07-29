@@ -63,6 +63,17 @@ function Body({ searchTerm }) {
 
     return (
         <>
+        <div>
+        <img src="1.jpg" alt="" />
+        <img src="2.jpg" alt="" />
+        <img src="3.jpg" alt="" />
+        <img src="2.1.jpg" alt="" />
+        <img src="3.1.jpg" alt="" />
+        <img src="3.2.jpg" alt="" />
+        <img src="3.3.jpg" alt="" />
+        <img src="4.1.jpg" alt="" />
+        <img src="4.1.2.jpg" alt="" />
+      </div>
             <main style={{ height: 'calc(100vh - 100px)' }} className='w-full relative h-screen'>
                 {pinnedNotes < 1 && unPinnedNotes < 1 && <DesignLogo />}
                 <aside className='border-t sm:flex justify-center items-start w-[20%] lg:w-[15%] hidden lg:flex float-left '>

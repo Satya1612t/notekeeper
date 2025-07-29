@@ -11,6 +11,7 @@ function App() {
     <div className=' bg-white text-black h-screen '>
       <Navigation setSearchTerm={setSearchTerm}  />
       <Body searchTerm={searchTerm} />
+      
       <Toaster/>
     </div>
   )
